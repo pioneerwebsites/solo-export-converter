@@ -15,7 +15,7 @@
   <header class="topbar">
     <div class="container-xl d-flex justify-content-between align-items-center py-3">
       <a class="brand d-flex align-items-center gap-2 text-decoration-none" href="./" aria-label="Solo Export Converter home">
-        <span class="brand-mark" aria-hidden="true">S<span>→</span></span>
+        <span class="brand-mark" aria-hidden="true">S</span>
         <span class="brand-label">solo<span class="brand-light"> / static</span></span>
       </a>
       <span class="privacy-tag"><span class="privacy-dot"></span> Runs locally in your browser</span>
@@ -25,24 +25,24 @@
   <main class="container-xl pt-5 pb-5">
     <div class="row align-items-start hero g-4">
       <div class="col-lg-8">
-        <div class="eyebrow mb-3">WEBSITE MIGRATION TOOL</div>
-        <h1>From Solo export to<br><span class="accent-text">deployable static website.</span></h1>
-        <p class="lead-text mt-3 mb-0">Upload your Solo ZIP export, save its remote images, and download a standalone ZIP for each website. Ready for Cloudflare Pages drag-and-drop deployment.</p>
+        <div class="eyebrow mb-3">SOLO WEBSITE MIGRATION TOOL</div>
+        <h1>Save your Solo website and <span class="accent-text">host it for free!</span></h1>
+        <p class="lead-text mt-3 mb-0">Since Solo announced they were shutting down on Nov 30th 2026, this tool the fastest and easiest way to keep your website alive!  Simply upload your Solo ZIP export, save its remote images, and download a Cloudflare-ready ZIP for each website.  It'll even improve your SEO.</p>
       </div>
       <div class="col-lg-4 hero-aside">
         <div class="quick-facts">
-          <div class="fact-row"><span class="fact-icon">✓</span><span>No server or sign-in required</span></div>
-          <div class="fact-row"><span class="fact-icon">✓</span><span>Separate ZIP for every site</span></div>
-          <div class="fact-row"><span class="fact-icon">✓</span><span>Contacts kept out of public sites</span></div>
-          <div class="fact-row"><span class="fact-icon">✓</span><span>Bootstrap bundled locally</span></div>
+          <div class="fact-row"><span class="fact-icon">✓</span><span>Completely free and open source</span></div>
+          <div class="fact-row"><span class="fact-icon">✓</span><span>Works locally in your browser</span></div>
+          <div class="fact-row"><span class="fact-icon">✓</span><span>Keeps personal info out of the cloud</span></div>
+          <div class="fact-row"><span class="fact-icon">✓</span><span>Fast and user-friendly</span></div>
         </div>
       </div>
     </div>
 
     <section class="workflow mt-5" aria-label="Conversion steps">
-      <div class="step"><span class="step-no">01</span><div><strong>Upload export</strong><div class="step-desc">ZIP with one folder per website</div></div></div>
+      <div class="step"><span class="step-no">01</span><div><strong>Upload export</strong><div class="step-desc"><a href="https://support.soloist.ai/doc/solo-shutdown-faq" target="_blank">Follow the steps</a> to download the ZIP</div></div></div>
       <span class="step-line" aria-hidden="true"></span>
-      <div class="step"><span class="step-no">02</span><div><strong>Fetch image assets</strong><div class="step-desc">Download and relink your images</div></div></div>
+      <div class="step"><span class="step-no">02</span><div><strong>Fetch image assets</strong><div class="step-desc">Download and preserve your images before they go offline</div></div></div>
       <span class="step-line" aria-hidden="true"></span>
       <div class="step"><span class="step-no">03</span><div><strong>Export each website</strong><div class="step-desc">One Cloudflare-ready ZIP per site</div></div></div>
     </section>
@@ -82,28 +82,32 @@
     <section class="info-grid mt-5" aria-label="Information and instructions">
       <article class="info-panel">
         <div class="eyebrow small-eyebrow mb-2">HOW TO USE</div>
-        <h2>Publish to Cloudflare Pages</h2>
+        <h2>Step-by-step Instructions</h2>
         <ol class="instructions">
-          <li>Download your website data from Solo, then select the exported ZIP above.</li>
-          <li>Check image status for each site and download its generated ZIP.</li>
-          <li>In Cloudflare, open <strong>Workers & Pages</strong>, create a Pages project, and choose <strong>Drag and drop</strong>.</li>
-          <li>Upload the generated ZIP. Repeat for any additional sites and connect your domain if needed.</li>
+          <li><a href="https://support.soloist.ai/doc/solo-shutdown-faq" target="_blank">Download your website data from Solo</a>, then drop the ZIP file in the box above.</li>
+          <li>Check the image status for each site. Some images can't currently be downloaded by the tool due to an issue at Solo's end, we're working on it.  In the meantime, you should right click on the remote link and Choose "Save Link As..." then upload those images manually.</li>
+          <li>Download the completed ZIP file for the site.</li>
+          <li>Go to <a href="https://www.cloudflare.com/drop/" target="_blank">Cloudflare Drop</a> and drop this new ZIP file on the page.</li>
+          <li>The site will be uploaded to a temporary domain.  Press the "Claim" button and follow the steps to create a Cloudflare account.</li>
+          <li>After you've made your Cloudflare account, use the "Add a domain" box to connect it to your domain, follow the steps to change your nameservers.</li>
+          <li>Repeat the process for any additional sites.</li>
         </ol>
-        <p class="subtle-note mb-0">Placeholder: add your own screenshots, URL and DNS guidance here.</p>
+        <p class="subtle-note mb-0">Still need help? Ask a chatbot or <a href="https://www.pioneerwebsites.com.au/support?URL1=solo.gethelp.pw&details=I'm having trouble exporting my website from Solo..." target="_blank">talk to one of our human experts.</a></p>
       </article>
       <article class="info-panel">
         <div class="eyebrow small-eyebrow mb-2">IMPORTANT NOTES</div>
-        <h2>What to check afterwards</h2>
+        <h2>What you need to know</h2>
         <ul class="instructions mb-3">
-          <li>Solo contact and newsletter forms will not work without a replacement form service.</li>
-          <li>Image downloads require CORS permission from the source server. If a request is blocked, download the image yourself and use the manual import option.</li>
-          <li>Cloudflare drag-and-drop permits 1,000 files and 25 MiB per file. Scripts, embeds and links to external resources may remain. Review each site before publishing.</li>
+          <li>Dynamic page elements such as contact forms will no longer work. If this is a feature you need, <a href="https://www.pioneerwebsites.com.au/support?URL1=solo.gethelp.pw&details=I need a new dynamic website based on my Solo website" target="_blank">have a chat with us.</a></li>
+          <li>When Solo goes offline, so will their editing tools.  Unless you are willing to get into the nitty-gritty of HTML and CSS you can't edit your website anymore. If this is a problem, <a href="https://www.pioneerwebsites.com.au/CMS/" target="_blank">you need a CMS.</a></li>
+          <li>Image downloads require CORS permission from the source server. Right now Solo is blocking this permission.  We've asked them to relax the restriction so users can easily export their images too. This would be a nice gesture of goodwill, and we'll update with their response. In the meantime, if a request is blocked, download the image yourself and use the manual import option.</li>
+          <li>Cloudflare drag-and-drop permits 1,000 files and 25 MiB per file. Scripts, embeds and links to external resources may remain. You should review each site before publishing.</li>
+          <li>Images are saved with filenames corresponding to their page section.  This is much better for SEO than the way Solo saved them originally.</li>
           <li><strong>Never publish contacts.csv.</strong> It may contain personal information.</li>
         </ul>
-        <p class="subtle-note mb-0">Placeholder: add your own troubleshooting, privacy notice or support details here.</p>
       </article>
     </section>
-    <footer class="footer mt-5 pt-4">Built for simple static migrations. Files are processed in this browser session, not sent to an application server. Image requests go directly to their original hosts.</footer>
+    <footer class="footer mt-5 pt-4">Built with <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-heart-fill text-primary" viewBox="0 0 16 16" style="vertical-align: -0.125em;" aria-hidden="true"><path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.735 3.562-3.248 8 1.314"/></svg> by <a href="https://www.pioneerwebsites.com.au/" target="_blank">Pioneer Websites - fast and friendly websites and hosting.</a> Files are processed in the browser, not sent to a server. View the <a href="https://github.com/pioneerwebsites/solo-export-converter" target="_blank">source code.</a></footer>
   </main>
 </body>
 </html>
