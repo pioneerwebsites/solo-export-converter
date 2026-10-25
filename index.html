@@ -87,8 +87,8 @@
           <li><a href="https://support.soloist.ai/doc/solo-shutdown-faq" target="_blank">Download your website data from Solo</a>, then drop the ZIP file in the box above.</li>
           <li>Check the image status for each site. Some images can't currently be downloaded by the tool due to an issue at Solo's end, we're working on it.  In the meantime, you should right click on the remote link and Choose "Save Link As..." then upload those images manually.</li>
           <li>Download the completed ZIP file for the site.</li>
-          <li>Go to <a href="https://www.cloudflare.com/drop/" target="_blank">Cloudflare Drop</a> and drop this new ZIP file on the page.</li>
-          <li>The site will be uploaded to a temporary domain.  Press the "Claim" button and follow the steps to create a Cloudflare account.</li>
+          <li>If the ZIP file is under 25MB the easiest option is to go to <a href="https://www.cloudflare.com/drop/" target="_blank">Cloudflare Drop</a> and drop this new ZIP file on the page. The site will be uploaded to a temporary domain.  Press the "Claim" button and follow the steps to create a Cloudflare account.</li>
+          <li>If the ZIP file is over 25MB you'll need to make a Cloudflare account first and then go to Compute → Workers and Pages → Upload your static files</li>
           <li>After you've made your Cloudflare account, use the "Add a domain" box to connect it to your domain, follow the steps to change your nameservers.</li>
           <li>Repeat the process for any additional sites.</li>
         </ol>
