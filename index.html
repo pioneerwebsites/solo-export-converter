@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Convert Solo website exports into self-contained static ZIP files for Cloudflare Pages, privately in your browser.">
+  <title>Solo Export Converter | Static site migration</title>
+  <link rel="stylesheet" href="vendor/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container-xl d-flex justify-content-between align-items-center py-3">
+      <a class="brand d-flex align-items-center gap-2 text-decoration-none" href="./" aria-label="Solo Export Converter home">
+        <span class="brand-mark" aria-hidden="true">S<span>→</span></span>
+        <span class="brand-label">solo<span class="brand-light"> / static</span></span>
+      </a>
+      <span class="privacy-tag"><span class="privacy-dot"></span> Runs locally in your browser</span>
+    </div>
+  </header>
+
+  <main class="container-xl pt-5 pb-5">
+    <div class="row align-items-start hero g-4">
+      <div class="col-lg-8">
+        <div class="eyebrow mb-3">WEBSITE MIGRATION TOOL</div>
+        <h1>From Solo export to<br><span class="accent-text">deployable static website.</span></h1>
+        <p class="lead-text mt-3 mb-0">Upload your Solo ZIP export, save its remote images, and download a standalone ZIP for each website. Ready for Cloudflare Pages drag-and-drop deployment.</p>
+      </div>
+      <div class="col-lg-4 hero-aside">
+        <div class="quick-facts">
+          <div class="fact-row"><span class="fact-icon">✓</span><span>No server or sign-in required</span></div>
+          <div class="fact-row"><span class="fact-icon">✓</span><span>Separate ZIP for every site</span></div>
+          <div class="fact-row"><span class="fact-icon">✓</span><span>Contacts kept out of public sites</span></div>
+          <div class="fact-row"><span class="fact-icon">✓</span><span>Bootstrap bundled locally</span></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="workflow mt-5" aria-label="Conversion steps">
+      <div class="step"><span class="step-no">01</span><div><strong>Upload export</strong><div class="step-desc">ZIP with one folder per website</div></div></div>
+      <span class="step-line" aria-hidden="true"></span>
+      <div class="step"><span class="step-no">02</span><div><strong>Fetch image assets</strong><div class="step-desc">Download and relink your images</div></div></div>
+      <span class="step-line" aria-hidden="true"></span>
+      <div class="step"><span class="step-no">03</span><div><strong>Export each website</strong><div class="step-desc">One Cloudflare-ready ZIP per site</div></div></div>
+    </section>
+
+    <section class="mt-4" aria-labelledby="upload-title">
+      <div id="dropzone" class="upload-zone" role="button" tabindex="0" aria-label="Select a Solo export ZIP file or drop it here">
+        <input id="zip-input" class="visually-hidden" type="file" accept=".zip,application/zip,application/x-zip-compressed">
+        <div class="upload-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V3m0 0L7 8m5-5 5 5"/><path d="M4 16.5v2A2.5 2.5 0 0 0 6.5 21h11a2.5 2.5 0 0 0 2.5-2.5v-2"/></svg></div>
+        <h2 id="upload-title">Drop your Solo export here</h2>
+        <p class="mb-3">or select the ZIP from your computer</p>
+        <button id="browse-btn" type="button" class="btn btn-dark btn-lg px-4 browse-button">Browse files</button>
+        <div class="upload-note mt-3">ZIP files only · Recommended maximum 500 MB · Nothing is uploaded to this website</div>
+      </div>
+      <div id="message" class="alert mt-3 d-none" role="alert" aria-live="polite"></div>
+    </section>
+
+    <section id="results" class="results mt-5 d-none" aria-labelledby="results-heading">
+      <div class="section-head d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+        <div><div class="eyebrow small-eyebrow mb-2">YOUR EXPORT</div><h2 id="results-heading" class="mb-0">Detected websites</h2></div>
+        <button id="reset-btn" type="button" class="btn btn-outline-secondary">Start over</button>
+      </div>
+      <div class="summary-card mb-4">
+        <div class="row g-3 align-items-center">
+          <div class="col-lg-7"><div class="summary-filename" id="summary-filename"></div><div class="summary-stats" id="summary-stats"></div></div>
+          <div class="col-lg-5"><div class="d-flex justify-content-between align-items-baseline small mb-2"><strong id="progress-label">Downloading images</strong><span id="progress-count" class="text-secondary">0 / 0</span></div><div class="progress" role="progressbar" aria-label="Image downloads" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="overall-progress" class="progress-bar"></div></div></div>
+        </div>
+        <div id="global-warnings" class="mt-3 d-none"></div>
+      </div>
+      <div id="site-list" class="d-grid gap-3"></div>
+      <div id="global-contacts" class="mt-3 d-none"></div>
+      <div class="form-check mt-4 mb-0">
+        <input class="form-check-input" type="checkbox" value="" id="allow-incomplete">
+        <label class="form-check-label text-secondary" for="allow-incomplete">Allow incomplete exports if some images could not be downloaded (remote image links may still be present).</label>
+      </div>
+    </section>
+
+    <section class="info-grid mt-5" aria-label="Information and instructions">
+      <article class="info-panel">
+        <div class="eyebrow small-eyebrow mb-2">HOW TO USE</div>
+        <h2>Publish to Cloudflare Pages</h2>
+        <ol class="instructions">
+          <li>Download your website data from Solo, then select the exported ZIP above.</li>
+          <li>Check image status for each site and download its generated ZIP.</li>
+          <li>In Cloudflare, open <strong>Workers & Pages</strong>, create a Pages project, and choose <strong>Drag and drop</strong>.</li>
+          <li>Upload the generated ZIP. Repeat for any additional sites and connect your domain if needed.</li>
+        </ol>
+        <p class="subtle-note mb-0">Placeholder: add your own screenshots, URL and DNS guidance here.</p>
+      </article>
+      <article class="info-panel">
+        <div class="eyebrow small-eyebrow mb-2">IMPORTANT NOTES</div>
+        <h2>What to check afterwards</h2>
+        <ul class="instructions mb-3">
+          <li>Solo contact and newsletter forms will not work without a replacement form service.</li>
+          <li>Image downloads require CORS permission from the source server. If a request is blocked, download the image yourself and use the manual import option.</li>
+          <li>Cloudflare drag-and-drop permits 1,000 files and 25 MiB per file. Scripts, embeds and links to external resources may remain. Review each site before publishing.</li>
+          <li><strong>Never publish contacts.csv.</strong> It may contain personal information.</li>
+        </ul>
+        <p class="subtle-note mb-0">Placeholder: add your own troubleshooting, privacy notice or support details here.</p>
+      </article>
+    </section>
+    <footer class="footer mt-5 pt-4">Built for simple static migrations. Files are processed in this browser session, not sent to an application server. Image requests go directly to their original hosts.</footer>
+  </main>
+</body>
+</html>
