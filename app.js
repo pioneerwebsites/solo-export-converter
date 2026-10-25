@@ -231,20 +231,31 @@
       : relative.endsWith('.html') ? [relative] : [relative + '.html', relative + '/index.html'];
     return possibilities.find(name => site.htmlMap.has(name)) || null;
   }
-  function urlVariants(url) {
-    return [...new Set([url, url.replaceAll('&', '&amp;'), url.replaceAll('/', '\\/'),
-      url.replaceAll('&', '&#38;'), url.replaceAll('&', '&#x26;')])];
+  // Match whole image URLs rather than literal CSV URL substrings. Solo's HTML
+  // commonly appends responsive-sizing query parameters (often HTML-escaped) to
+  // the image URL in images.csv. A substring replacement leaves those parameters
+  // attached to the local filename, producing invalid src/srcSet references.
+  function escapeRegExp(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
-  function htmlContains(html, url) { return urlVariants(url).some(v => html.includes(v)); }
+  function imageUrlPattern(url) {
+    const parsed = new URL(url);
+    // Transform parameters can differ in src and srcSet. The URL's origin and
+    // pathname identify the underlying image; consume the COMPLETE query/fragment.
+    const base = parsed.origin + parsed.pathname;
+    const bases = [base, base.replaceAll('/', '\\/')]; // Also support JS-escaped HTML URLs.
+    const prefix = [...new Set(bases)].map(escapeRegExp).join('|');
+    // Do not consume srcSet commas/descriptors, HTML attribute quotes, or CSS
+    // url() delimiters. &amp;, &#38; and literal & are all part of the query.
+    return new RegExp(`(?:${prefix})(?:[?#][^\\s\"'<>),\x60]+)?(?=$|[\\s\"'<>),])`, 'g');
+  }
+  function htmlContains(html, url) {
+    return imageUrlPattern(url).test(html);
+  }
   function replaceUrl(html, url, local) {
     let matches = 0;
-    for (const remote of urlVariants(url)) {
-      if (!html.includes(remote)) continue;
-      const pieces = html.split(remote);
-      matches += pieces.length - 1;
-      html = pieces.join(local);
-    }
-    return { html, matches };
+    const result = html.replace(imageUrlPattern(url), () => { matches++; return local; });
+    return { html: result, matches };
   }
   function validateImageUrl(url) {
     try {
