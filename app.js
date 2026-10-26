@@ -231,23 +231,35 @@
       : relative.endsWith('.html') ? [relative] : [relative + '.html', relative + '/index.html'];
     return possibilities.find(name => site.htmlMap.has(name)) || null;
   }
-  // Match whole image URLs rather than literal CSV URL substrings. Solo's HTML
-  // commonly appends responsive-sizing query parameters (often HTML-escaped) to
-  // the image URL in images.csv. A substring replacement leaves those parameters
-  // attached to the local filename, producing invalid src/srcSet references.
+  // Match complete image URLs, including Solo CDN's resized WebP derivatives.
+  // Example: images.csv contains /photo.jpeg but the HTML uses
+  // /photo_1040x1040.webp and /photo_200x200.webp in src/srcset.
+  // A derivative is recognised ONLY for the same Solo CDN host, directory and
+  // filename stem, followed by a numeric WIDTHxHEIGHT suffix and .webp.
+  // This avoids replacing unrelated files that happen to share a prefix.
   function escapeRegExp(value) {
     return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
   function imageUrlPattern(url) {
     const parsed = new URL(url);
-    // Transform parameters can differ in src and srcSet. The URL's origin and
-    // pathname identify the underlying image; consume the COMPLETE query/fragment.
     const base = parsed.origin + parsed.pathname;
-    const bases = [base, base.replaceAll('/', '\\/')]; // Also support JS-escaped HTML URLs.
-    const prefix = [...new Set(bases)].map(escapeRegExp).join('|');
-    // Do not consume srcSet commas/descriptors, HTML attribute quotes, or CSS
-    // url() delimiters. &amp;, &#38; and literal & are all part of the query.
-    return new RegExp(`(?:${prefix})(?:[?#][^\\s\"'<>),\x60]+)?(?=$|[\\s\"'<>),])`, 'g');
+    const paths = [base, base.replaceAll('/', '\\/')]; // Also support JS-escaped URLs.
+    const alternatives = paths.map(escapeRegExp);
+
+    if (parsed.hostname.toLowerCase() === 'cdn.soloist.ai' &&
+        /\.(?:jpe?g|png|gif|webp|avif)$/i.test(parsed.pathname)) {
+      const stem = base.replace(/\.[^./]+$/, '');
+      // Do not match arbitrary underscores or extensions: only Solo's
+      // _WIDTHxHEIGHT.webp format, e.g. _1040x1040.webp.
+      for (const variantStem of [stem, stem.replaceAll('/', '\\/')]) {
+        alternatives.push(escapeRegExp(variantStem) + '_\\d{1,6}x\\d{1,6}\\.webp');
+      }
+    }
+
+    // Consume the entire query and fragment, including HTML-escaped &amp;.
+    // Leave srcset width descriptors and commas intact.
+    const prefix = [...new Set(alternatives)].join('|');
+    return new RegExp(`(?:${prefix})(?:[?#][^\\s"'<>),\x60]+)?(?=$|[\\s"'<>),])`, 'g');
   }
   function htmlContains(html, url) {
     return imageUrlPattern(url).test(html);
