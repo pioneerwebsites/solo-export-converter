@@ -85,7 +85,7 @@
         <h2>Step-by-step Instructions</h2>
         <ol class="instructions">
           <li><a href="https://support.soloist.ai/doc/solo-shutdown-faq" target="_blank">Download your website data from Solo</a>, then drop the ZIP file in the box above.</li>
-          <li>Check the image status for each site. Some images can't currently be downloaded by the tool due to an issue at Solo's end, we're working on it.  In the meantime, you should right click on the remote link and Choose "Save Link As..." then upload those images manually.</li>
+          <li>Check the image status for each site. If an image fails to download, right click on the remote link and choose "Save Link As..." then upload those images manually.</li>
           <li>Download the completed ZIP file for the site.</li>
           <li>If the ZIP file is under 25MB the easiest option is to go to <a href="https://www.cloudflare.com/drop/" target="_blank">Cloudflare Drop</a> and drop this new ZIP file on the page. The site will be uploaded to a temporary domain.  Press the "Claim" button and follow the steps to create a Cloudflare account.</li>
           <li>If the ZIP file is over 25MB you'll need to make a Cloudflare account first and then go to Compute → Workers and Pages → Upload your static files</li>
@@ -100,7 +100,7 @@
         <ul class="instructions mb-3">
           <li>Dynamic page elements such as contact forms will no longer work. If this is a feature you need, <a href="https://www.pioneerwebsites.com.au/support?URL1=solo.gethelp.pw&details=I need a new dynamic website based on my Solo website" target="_blank">have a chat with us.</a></li>
           <li>When Solo goes offline, so will their editing tools.  Unless you are willing to get into the nitty-gritty of HTML and CSS you can't edit your website anymore. If this is a problem, <a href="https://www.pioneerwebsites.com.au/CMS/" target="_blank">you need a CMS.</a></li>
-          <li>Image downloads require CORS permission from the source server. Right now Solo is blocking this permission.  We've asked them to relax the restriction so users can easily export their images too. This would be a nice gesture of goodwill, and we'll update with their response. In the meantime, if a request is blocked, download the image yourself and use the manual import option.</li>
+          <li>Solo were kind enough to <a href="https://github.com/pioneerwebsites/solo-export-converter/issues/1" target="_blank">put a permissive CORS policy on their CDN</a> to allow this tool to download user-generated images before they go offline, kudos to them!</li>
           <li>Cloudflare drag-and-drop permits 1,000 files and 25 MiB per file. Scripts, embeds and links to external resources may remain. You should review each site before publishing.</li>
           <li>Images are saved with filenames corresponding to their page section.  This is much better for SEO than the way Solo saved them originally.</li>
           <li>Looking for the Soloist.ai <a href="https://www.pioneerwebsites.com.au/support?URL1=solo.gethelp.pw&details=I'd like to replace my old Pro/Growth Solo plan..." target="_blank">Pro or Growth Plans</a>? (USD$20 or $85/month, annually)</li>
